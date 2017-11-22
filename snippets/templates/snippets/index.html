@@ -1,0 +1,112 @@
+{% extends "base_foundations.html" %}
+
+{% load snippet_tags %}
+
+{% load static %}
+
+{% block title %}
+    Snippets
+{% endblock title %}
+
+{% block content %}
+<div id="main-body" class="grid-x grid-margin-x">
+    
+  <div class="medium-7 cell" id="snippets">
+    <h3 class="text-center green-a-tag">{% if md == "languages" %}All "{{ qs }}" snippets{% elif md == "author" %}All Snippets written by "{{ qs }}"{% elif md == "category" %}All snippets in the "{{ qs }}" category{% endif %}</h3>
+    {% for snippet in snippet_list %}
+    <div class="callout">
+      <h3><a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a></h3>
+      <p>
+        {{ snippet.description }}
+      </p>
+      <div class="code-detail float-right">
+        <span>posted by </span><a href="{% url 'profile_view' pk=snippet.author.pk username=snippet.author.username %}">{{ snippet.author }}</a> on {{ snippet.created }}
+        <span>language </span><a href="#">{{ snippet.language.name }}</a>
+      </div><!-- / code detail -->
+      
+      <div id="snippet-{{ forloop.counter }}" class="editor">{{ snippet.code }}
+      </div> <!-- / code -->
+
+      <div class="code-actions float-left">
+        <a href="#" title="Upvote Snippet" data-id="{{ snippet.id }}" data-action="upvote" id="upvote" js-post-upvote-url="{% url 'actions:upvote' %}">
+          <span class="fa fa-chevron-up"></span>
+        </a>
+        &nbsp;&nbsp;
+        <a href="#" title="Downvote Snippet" data-id="{{ snippet.id }}" data-action="downvote" id="downvote" js-post-upvote-url="{% url 'actions:upvote' %}">
+          <span class="fa fa-chevron-down"></span>
+        </a>
+        &nbsp;&nbsp;
+        <a href="#" title="Bookmark Snippet" id="bookmark" data-id="{{ snippet.id }}" data-action="bookmark" js-post-bookmark-url="{% url 'actions:bookmark' %}">
+          <span class="fa fa-bookmark"></span>
+        </a>
+        
+      </div><!-- / code actions -->
+      <div class="code-stat float-right">
+        <span class="fa fa-eye" title="views"> 6000</span> &nbsp;&nbsp;
+        <span class="fa fa-chevron-up" title="upvotes"> {{ snippet.upvotes.count }}</span> &nbsp;&nbsp;
+        <span class="fa fa-chevron-down" title="downvotes"> {{ snippet.downvotes.count }}</span>
+
+      </div> <!-- / code stats -->
+    </div>
+    {% empty %}
+      <p class="text-center">No Snippets Yet.</p>
+    {% endfor %}
+
+    {% include "pagination.html" %}
+  </div>
+
+  <div id="sidebar" class="medium-5 cell" data-sticky-container>
+    <div class="sticky" data-sticky data-anchor="snippets">
+      <div class="callout">
+        <h3>Latest Snippets</h3>
+        {% show_latest_snippets %}
+      </div>
+      <div class="callout">
+        <h3>Most popular languages</h3>
+        {% get_most_popular_languages as most_popular_languages %}
+        <ul class="list-unstyled">
+          {% for lang in most_popular_languages %}
+          <li>
+            <a href="{% url 'snippets:lang_filter' lang.pk %}">{{ lang.name }}</a>
+          </li>
+          {% empty %}
+            <li>
+              <p class="text-center">No popular posts yet.</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="callout">
+        <h3>Top authors</h3>
+        {% get_top_authors as top_authors %}
+        <ul class="list-unstyled">
+          {% for author in top_authors %}
+          <li>
+            <a href="{% url 'profile_view' author.pk author.username %}">{{ author.username }} </a>
+          </li>
+          {% empty %}
+            <li>
+              No top authors yet.
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "snippets/lang_modal.html" %}
+
+<script src="{% static "snippets/js/vendor/src-noconflict/ace.js" %}" type="text/javascript" charset="utf-8"></script>
+
+<script src="static/snippets/js/vendor/src-noconflict/mode-coffee.js" type="text/javascript" charset="utf-8" id="script"></script>
+<script>
+  {% for snippet in snippet_list %}
+    var editor = ace.edit("snippet-{{ forloop.counter }}");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/{{ snippet.language.language_mode }}");
+    editor.setReadOnly(true);
+  {% endfor %}  
+</script>
+
+{% endblock content %}

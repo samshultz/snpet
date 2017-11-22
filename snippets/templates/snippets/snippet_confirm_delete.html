@@ -1,0 +1,16 @@
+{% extends "base_foundations.html" %}
+
+{% block title %}
+    Delete
+{% endblock title %}
+
+{% block content %}
+    <h2>Are you sure?</h2>
+    <p>Are You sure you want to delete "{{ object.title }}"</p>
+    <form action="" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="post" value="yes">
+      <input type="submit" value="Yes, I'm sure" class="red button">
+      <a href="{% url 'snippets:personal_snippets' %}" title="No, take me back" class="green button">No, take me back</a>
+    </form>
+{% endblock content %}

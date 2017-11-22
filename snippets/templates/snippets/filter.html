@@ -1,0 +1,22 @@
+{% extends "base_foundations.html" %}
+
+{% block title %}
+    Languages
+{% endblock title %}
+
+{% block content %}
+<h1 class="text-center">{% if lang %}All languages{% elif user %}All Users{% elif category %}{% endif %}</h1>
+<ul class="list-unstyled grid-x medium-up-4">
+  {% for obj in object_list %}
+    {% if lang %}
+      <li class="cell"><a href="{% url 'snippets:lang_filter' obj.pk %}" class="green-a-tag">{{ obj.name }}</a></li>
+    {% elif user %}
+    <li class="cell"><a href="{% url 'snippets:author_filter' obj.pk %}" class="green-a-tag">{{ obj.username }}</a></li>
+    {% elif category %}
+    <li class="cell"><a href="{% url 'snippets:category_filter' obj.pk %}" class="green-a-tag">{{ obj.name }}</a></li>
+
+    {% endif %}
+  {% endfor %}
+</ul>
+  
+{% endblock content %}

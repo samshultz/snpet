@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Profile for {{ user.username }}
+{% endblock title %}
+
+{% block content %}
+    <div class=" profile">
+
+        <div class="profile-bottom">
+            <h3><i class="fa fa-user"></i>Profile</h3>
+            <div class="profile-bottom-top">
+                <div class="col-md-4 profile-bottom-img">
+                    
+                        <img src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}{% static "accounts/images/no_image.png" %}{% endif %}" width='200' alt="{{ user.username }}" class="img-responsive">
+                </div>
+                <div class="col-md-8 profile-text">
+                    <h6>{{ user.username }}</h6>
+                    <div class="table-responsive">
+                    <table class="table">
+                            <tr>
+                                <td>Email</td>
+                                <td> :</td>
+                                <td><a href="{{ user.email }}">{{ user.email }}</a></td>
+                            </tr>
+                            <tr>
+                                <td>Skills</td>
+                                <td> :</td>
+                                <td> {% for lang in user.languages.all %}
+                                        {{ lang }}
+                                    {% if not forloop.last %},
+                                    {% endif %}
+              {% endfor %}</td>
+                            </tr>
+                            <tr>
+                                <td>Country </td>
+                                <td>:</td>
+                                <td> {{ user.profile.country }}</td>
+                            </tr>
+                            <tr>
+                                <td>Website </td>
+                                <td>:</td>
+                                <td><a href="{{ user.profile.website }}">{{ user.profile.website }}</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                {% if request.user.username == user.username %}
+    
+                    <div class="profile-bottom-bottom">
+                        <div class="col-md-4 profile-fo">
+
+                            <a href="{% url 'account_change_password' %}" class="pro"><i class="fa fa-lock"></i>Change password</a>
+                        </div>
+                        <div class="col-md-4 profile-fo">
+                            <a href="{% url 'profile_edit' %}" class="pro1"><i class="fa fa-pencil"></i>Edit Profile</a>
+                        </div>
+                        <div class="col-md-4 profile-fo">
+                            <a href="{% url 'account_email' %}" class="pro"><i class="fa fa-pencil"></i>Change Email</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                {% endif %}
+                
+
+
+            </div>
+        </div>
+{% endblock content %}

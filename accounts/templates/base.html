@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock title %}</title>
+   <link href="{% static 'accounts/fonts/Tangerine-Regular.ttf' %}" rel="stylesheet">
+  {% block assets %}
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <script type="text/javascript">
+    $(document).on('click', '.browse', function(){
+      var file = $(this).parent().parent().parent().find('.file');
+      file.trigger('click');
+    });
+    $(document).on('change', '.file', function(){
+      $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
+    </script>
+    <link href="{% static 'accounts/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="{% static 'accounts/css/style.css' %}" rel='stylesheet' type='text/css' />
+    <link href="{% static 'accounts/css/font-awesome.css' %}" rel="stylesheet"> 
+    <script src="{% static 'accounts/js/jquery.min.js' %}"> </script>
+    <script src="{% static 'accounts/js/bootstrap.min.js' %}"> </script>
+      <style type="text/css" media="screen">
+      #editor {
+        /** Setting height is also important, otherwise editor wont showup**/
+        min-height: 400px;
+        height: 100%;
+      }
+      label[for="id_code"]{
+        display: none;
+      }
+</style>
+{% endblock assets %}
+<style type="text/css" media="screen">
+  nav.navbar.navbar-default {
+  height: 30px !important;
+  color: #fff;
+  background-color: #D95459;
+}
+div.navbar-header a.navbar-brand {
+  color: #fff;
+  font-size: 30px;
+  font-family: 'Tangerine';
+}
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'snippets:index' %}">Snippets</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+  </div><!-- /.container-fluid -->
+</nav>
+  {% block content %}
+  {% endblock content %}
+ 
+</body>
+</html>

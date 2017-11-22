@@ -1,0 +1,29 @@
+      {% if form.errors %}
+        {{ form.errors }}
+      {% endif %}
+      {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        {% if field.label == "Language" %}
+        <div class="col-sm-8">
+          
+        <select name="language" class="form-control1" id="id_language" required="">
+          {% for lang in request.user.languages.all %}
+            <option value="{{ lang.id }}">{{ lang.name }}</option>
+          {% endfor %}
+        </select>
+        </div>
+        {% else %}
+
+        <div class="col-sm-8">
+          {{ field }}
+        </div>
+        {% if field.help_text %}
+        <div class="col-sm-2">
+          <p class="help-block">{{ field.help_text }}</p>
+        </div>
+        {% endif %}
+        {% endif %}
+        
+      </div>
+      {% endfor %}

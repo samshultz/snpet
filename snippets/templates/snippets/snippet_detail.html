@@ -1,0 +1,46 @@
+{% extends "base_foundations.html" %}
+
+{% load static %}
+
+{% block title %}
+    {{ snippet.title }}
+{% endblock title %}
+
+{% block content %}
+<style type="text/css" media="screen">
+  #editor{
+    min-height: 500px;
+  }
+</style>
+<div id="main-body" class="grid-x grid-margin-x">
+  <div class="medium-7 cell" id="snippets">
+    <div class="callout" id="callout">
+      <h2>{{ snippet.title }}</h2>
+      <p>
+        {{ snippet.description }}
+      </p>
+      <div class="code-detail float-right">
+        <span>posted by </span><a href="{% url 'profile_view' pk=snippet.author.pk username=snippet.author.username %}">{{ snippet.author }}</a>
+        <span>language </span><a href="#">{{ snippet.language.name }}</a>
+      </div><!-- / code detail -->
+
+      <div id="editor" class="editor">{{ snippet.code }}
+      </div> <!-- / code -->
+
+    </div>
+  </div>
+  <div class="medium-5 cell">
+    
+  <div class="fb-comments" data-href="http://www.snpet.pythonanywhere.com" data-width="30" data-numposts="5"></div>
+  </div>
+</div>
+
+<script src="{% static "snippets/js/vendor/src-noconflict/ace.js" %}" type="text/javascript" charset="utf-8"></script>
+<script src="static/snippets/js/vendor/src-noconflict/mode-{{ snippet.language.language_mode }}.js" type="text/javascript" charset="utf-8" id="script"></script>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/{{ snippet.language.language_mode }}");
+</script>
+{% endblock content %}

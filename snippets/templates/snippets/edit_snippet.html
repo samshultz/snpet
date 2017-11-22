@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Add Snippet
+{% endblock title %}
+{% block content %}
+<div id="page-wrapper" class="gray-bg dashbard-1">
+ <div class="content-main">
+  <div class="grid-form1">
+   <h3>Edit a snippet</h3>
+   <div class="tab-content">
+    <div class="tab-pane active" id="horizontal-form">
+
+      <form method="post" class="form-horizontal" action="">
+        {% csrf_token %}
+        {% include 'snippet_form.html' %}
+        <label for="editor" class="col-sm-2 control-label">Code</label>
+        <div id="editor" class="col-sm-8">function foo(items) {
+          var x = "All this is syntax highlighted";
+          return x;
+        }</div>
+        <div class="profile-btn" style="clear: both;">
+
+          <input type="submit" class="btn bg-red" value="Add Snippet">
+          <div class="clearfix"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<script src="{% static "snippets/js/vendor/src-noconflict/ace.js" %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static "snippets/js/vendor/src-noconflict/mode-actionscript.js" %}" type="text/javascript" charset="utf-8" id="script"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/python");
+    var textarea = $('textarea#id_code').hide();
+    editor.getSession().setValue(textarea.val());
+    editor.getSession().on('change', function(){
+      textarea.val(editor.getSession().getValue());
+    });
+    $("#id_language").change(function(event, l) {
+      /* Act on the event */
+      var lang = $("#id_language option[value="+$(this)[0].value.toString() +"]")[0].attributes[1].nodeValue
+      var mode = "static/snippets/js/vendor/sr-noconflict/mode-" + lang + ".js"
+      $("#script").attr('src', mode);
+      editor.getSession().setMode("ace/mode/" + lang);
+      
+    });
+</script>
+{% endblock content %}

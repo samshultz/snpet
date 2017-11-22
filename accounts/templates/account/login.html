@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block title %}Login{% endblock %}
+{% block content %}
+    
+    <div class="login">
+        <h1><a href="index.html">Snippets </a></h1>
+        
+        <div class="login-bottom">
+            <h2>Login</h2>
+            {% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+{% endif %}
+
+            {% if form.errors %}
+            <p>Your Username and password didn't match. Please try again.</p>
+        {% endif %}
+            <form action="" method="post">{% csrf_token %}
+            <div class="col-md-6">
+                <div class="login-mail">
+                    {{ form.login }}
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="login-mail">
+                    {{ form.password }}
+                    <i class="fa fa-lock"></i>
+                </div>
+                   
+                         <p style="color: #999;">{{ form.remember }} Remember me?</p>
+                       <a class="news-letter " href="#">
+                         <p><a href="{% url 'account_reset_password' %}" style="color: #999;">Forgot Password?</a></p>
+                       </a>
+
+            
+            </div>
+            <div class="col-md-6 login-do">
+                <label class="hvr-shutter-in-horizontal login-sub">
+                    <input type="hidden" value="{{ next }} name=next">
+                    <input type="submit" value="login">
+                    </label>
+                    <p>Do not have an account?</p>
+                <a href="{{ signup_url }}" class="hvr-shutter-in-horizontal">Signup</a>
+            </div>
+            
+            <div class="clearfix"> </div>
+            </form>
+        </div>
+    </div>
+        <!---->
+<!---->
+<!--scrolling js-->
+    <script src="{% static 'accounts/js/jquery.nicescroll.js' %}"></script>
+    <script src="{% static 'accounts/js/scripts.js' %}"></script>
+    <script src="{% static 'accounts/js/app.js' %}"></script>
+    <!--//scrolling js-->
+{% endblock content %}

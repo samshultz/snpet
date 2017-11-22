@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block content %}
+<div class="login">
+  <h1><a href="index.html">Snippets </a></h1>
+  <div class="login-bottom">
+    <h2>Register</h2>
+
+    <div class="col-md-6" id="register">
+      {% if form.errors %}
+      <p>{{ form.errors }}</p>
+      {% endif %}
+      <form action="" method="post">{% csrf_token %}
+          <div>{{ form.email }}</div><br>
+
+        <div class="login-mail">
+          <input type="text" placeholder="Username" name="username" required="">
+          <i class="fa fa-user"></i>
+        </div>
+        
+        <div class="login-mail">
+          <input type="password" placeholder="Password" name="password1" required="">
+          <i class="fa fa-lock"></i>
+        </div>
+        <div class="login-mail">
+          <input type="password" placeholder="Repeat password" name="password2" required="">
+          <i class="fa fa-lock"></i>
+        </div>
+
+     </div>
+     {% if redirect_field_value %}
+     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+     {% endif %}
+     <div class="col-md-6 login-do">
+      <label class="hvr-shutter-in-horizontal login-sub">
+        <input type="submit" value="Submit">
+      </label>
+    </form>
+    <p>Already have an account?</p>
+    <a href="{{ login_url }}" class="hvr-shutter-in-horizontal">Login</a>
+  </div>
+  <div class="clearfix"> </div>
+</div>
+</div>
+<!---->
+<div class="copy-right">
+  <p> &copy; 2016 Minimal. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>     </div>
+  {% endblock content %}

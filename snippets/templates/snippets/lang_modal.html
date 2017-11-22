@@ -1,0 +1,16 @@
+<p><button class="button" data-open="exampleModal11" id="open-tech">Click me for a modal</button></p>
+
+<div class="large reveal" id="exampleModal11" aria-labelledby="exampleModalHeader11" data-reveal>
+  <h1 id="exampleModalHeader11" class="h3">Select your technology</h1>
+  <form action="{% url 'snippets:language_register' %}" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+    <fieldset>
+      <legend>Select your technology</legend>
+        {{ lang_form }}
+    </fieldset>
+    <input type="submit" class="button" value="Save">
+  </form>
+  <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

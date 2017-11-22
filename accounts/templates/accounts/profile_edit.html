@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Edit Profile
+{% endblock title %}
+
+{% block content %}
+    
+      <div class="validation-system">
+    
+    <div class="validation-form">
+  <!---->
+        
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+          <div class="vali-form">
+            <div class="col-md-6 form-group1">
+              <label class="control-label">Username</label>
+              {{ user_form.username }}
+            </div>
+            <div class="col-md-6 form-group1 form-last">
+              <label class="control-label">Email</label>
+              {{ user_form.email }}
+            </div>
+            <div class="clearfix"> </div>
+            </div>
+            
+            <div class="col-md-12 form-group1 group-mail">
+              <label class="control-label">Country</label>
+              {{ profile_form.country }}
+            </div>
+             <div class="clearfix"> </div>
+            <div class="col-md-12 form-group1 group-mail">
+              <label class="control-label">Website</label>
+              {{ profile_form.website}}
+            </div>
+             <div class="clearfix"> </div>
+          <div class="profile-bottom-top">
+            <label class="btn" for="my-file-selector">
+              <input id="my-file-selector" type="file" class="hidden" 
+              onchange="$('#upload-file-info').html(this.files[0].name)" name="photo">
+              <div class="col-md-4 profile-bottom-img">
+              <img src="{% if request.user.profile.photo %}{{ request.user.profile.photo.url }} {% else %} {% static "accounts/images/no_image.png" %} {% endif %}" width='295' alt="{{ request.user.username }}" class="img-responsive">
+            </div>
+            </label>
+          </div>
+            <span class='label label-info' id="upload-file-info"></span>
+
+            <div class="profile-btn">
+
+                    <button type="submit" class="btn bg-red">Save changes</button>
+                    <div class="clearfix"></div>
+                </div>
+           
+          <div class="clearfix"> </div>
+        </form>
+    
+  <!---->
+ </div>
+ 
+</div>
+{% endblock content %}

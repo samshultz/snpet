@@ -1,0 +1,70 @@
+{% extends "base_foundations.html" %}
+{% block title %}
+    Your Snippets
+{% endblock title %}
+
+
+{% block content %}
+  
+  <div>
+    <ul class="tabs" data-tabs id="example-tabs">
+      <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">Your Snippets</a></li>
+      <li class="tabs-title"><a href="#panel2v">Bookmarks</a></li>
+    </ul>
+  </div>
+    <div class="tabs-content" data-tabs-content="example-tabs">
+      <div class="tabs-panel is-active" id="panel1v">
+        <table class="hover responsive">
+      <thead>
+        <tr>
+          <th class="text-center">snippet</th>
+          <th class="text-center">language</th>
+          <th class="text-center">posted on</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for snippet in request.user.snippets_created.all %}
+        <tr>
+          <td><a href="{{ snippet.get_absolute_url }}" title="" class="green-a-tag">{{ snippet.title }}</a></td>
+          <td>{{ snippet.language.name }}</td>
+          <td>{{ snippet.created }}</td>
+          <td>
+            <a href="{% url 'snippets:edit_snippet' snippet.pk %}" class="small green button"><span class="fa fa-edit"></span>  Edit</a>
+            <a href="{% url 'snippets:del_snippet' snippet.pk %}" class="small button"><span class="fa fa-trash-o"></span>    Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+        
+      </tbody>
+    </table>
+      </div>
+      <div class="tabs-panel" id="panel2v">
+        <table class="hover responsive">
+      <thead>
+        <tr>
+          <th class="text-center">Snippets</th>
+          <th class="text-center">Author</th>
+          <th class="text-center">Language</th>
+          <th class="text-center">posted on</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for snippet in request.user.bookmarked_snippets.all %}
+        <tr>
+          <td><a href="{{ snippet.get_absolute_url }}" title="" class="green-a-tag">{{ snippet.title }}</a></td>
+          <td>{{ snippet.author.username }}</td>
+          <td>{{ snippet.language.name }}</td>
+          <td>{{ snippet.created }}</td>
+          
+        </tr>
+        {% endfor %}
+        
+      </tbody>
+    </table>
+      </div>
+    </div>
+</div>
+   
+{% endblock content %}

@@ -1,0 +1,123 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+<head>
+  <link href="{% static 'accounts/fonts/Courgette-Regular.ttf' %}">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="{% static 'snippets/css/foundation.css' %}">
+  <link type="text/css" media="screen" rel="stylesheet" href="{% static "snippets/css/responsive-tables.css" %}" />
+  <link rel="stylesheet" href="{% static 'snippets/css/app.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'snippets/css/foundation-icons.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'snippets/css/font-awesome.min.css' %}">
+  <script src="{% static 'snippets/js/vendor/jquery.js' %}"></script> 
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11&appId=1869969906626088';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+  
+</head>
+<body>
+  <div class="grid-container full">
+    <div class="title-bar" data-responsive-toggle="navi" data-hide-for="medium">
+      <button class="menu-icon" type="button" data-toggle="navi"></button>
+      <div class="title-bar-title"><a href="{% url 'snippets:index' %}" title="">Snippets</a></div>
+    </div><!-- / title-bar -->
+
+    <nav class="top-bar" id="navi" data-animate="hinge-in-from-top hinge-out-from-top">
+      <div class="top-bar-title show-for-medium"><a href="{% url 'snippets:index' %}" title="">Snippets</a></div>
+      <div>
+        <div class="top-bar-right">
+          <ul class="menu">
+            {% if not request.user.is_authenticated %}
+            <li><a href="{% url 'account_signup' %}">Signup</a></li>
+            <li><a href="{% url 'account_login' %}">Login</a></li>
+            {% else %}
+            <li>
+              <button class="button" type="button" data-toggle="example-dropdown-1">{{ request.user.username }}  
+                <span class="fa fa-caret-down"></span>
+              </button>
+            </li>
+            <div class="dropdown-pane" id="example-dropdown-1" data-dropdown data-hover="true" data-hover-pane="true">
+              <li>
+                <a href="{% url 'profile_view' request.user.pk request.user.username %}">
+                  <span class="fa fa-user" aria-hidden></span>    Profile
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'profile_edit' %}">
+                  <span class="fa fa-pencil-square-o"></span>    Edit Profile
+                </a>
+              </li>
+              <li><a href="{% url 'snippets:personal_snippets' %}"><span class="fa fa-code">    Your Snippets</a></li>
+              <li><a href="{% url 'account_logout' %}"><span class="fa fa-sign-out"></span>    Logout</a></li>
+            </div>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav><!-- / nav -->
+  </div><br>
+  <div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="callout cell large-9">
+      <ul class="grid-x list-unstyled">
+        <li class="medium-2 cell"><a href="{% url 'snippets:index' %}">all snippets</a></li>
+        <li class="medium-2 cell"><a href="{% url 'snippets:lang_view' %}">by languages</a></li>
+        <li class="medium-2 cell"><a href="{% url 'snippets:author_view' %}">by authors</a></li>
+        <li class="medium-2 cell"><a href="{% url 'snippets:category_view' %}">by categories</a></li>
+        <li class="medium-2 cell"><a href="{% url 'snippets:add_snippet' %}">add a snippet</a></li>
+        <li class="medium-2 cell"><a href="{% url 'snippets:personal_snippets' %}">view your snippets</a></li>
+      </ul>
+    </div>
+    <div class="cell large-3">
+      <form action="{% url 'snippets:snippet_search' %}">
+        <div class="input-group">
+          <input class="input-group-field" type="search" placeholder="Search" name="q">
+          <div class="input-group-button">
+            <button class="button"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+    {% block content %}
+    {% endblock content %}
+  </div><br>
+
+  <div class="grid-y">
+    <div class="cell shrink footer text-center">
+      <p> &copy; 2016 Snippets. All Rights Reserved | Design by samshultz</p>
+    </div>
+  </div>
+  
+
+  
+  <script src="{% static 'snippets/js/vendor/what-input.js' %}"></script>
+  <script src="{% static 'snippets/js/vendor/foundation.js' %}"></script>
+  <script src="{% static 'snippets/js/app.js' %}"></script>
+  <script src="{% static 'snippets/js/custom.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("button#open-tech").hide();
+      {% if request.user.is_authenticated %}
+        {% if not request.user.languages.all %}
+          $("button#open-tech").trigger('click');
+        {% endif %}
+      {% endif %}
+      
+    })
+  </script>
+
+  <script type="text/javascript" src="{% static "snippets/js/vendor/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "snippets/js/vendor/responsive-tables.js" %}"></script>
+
+</body>
+</html>
