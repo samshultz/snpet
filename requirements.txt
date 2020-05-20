@@ -17,7 +17,7 @@ django-webtest==1.9.2
 djangocodemirror==1.1.0
 feedparser==5.2.1
 google-api-python-client==1.4.1
-httplib2==0.10.3
+httplib2==0.18.0
 idna==2.6
 Markdown==2.6.9
 oauth2client==4.1.2
